@@ -1,0 +1,16 @@
+import-module Docker.psm1
+
+Get-Command | where source -eq "Docker"
+
+Pull-ContainerImage hello-world
+
+Get-ContainerImage 
+
+Get-ContainerImage | where RepoTags -match "hello" | Run-ContainerImage
+
+Get-Container | select names, State
+
+Get-Container | where state -eq "exited" | Remove-Container
+
+Get-ContainerImage | where RepoTags -Match "hello" | Remove-ContainerImage
+

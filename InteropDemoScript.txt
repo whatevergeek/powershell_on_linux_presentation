@@ -1,0 +1,96 @@
+sudo su
+tmux
+docker run -it 6ee
+
+cd ./Laboratory/
+
+#Basic execution of a node script fragment
+node -e "console.log('Hello Powershell User Group!!!')"
+
+#Capture output in a variable
+$data = node -e "console.log('Hello Powershell User Group!!!')"
+
+#And show the data
+$data
+
+#Use in expressions
+3 + (node -e "console.log(1+3)") + 5
+
+#Just be aware of the quirks
+(node -e "console.log(1+3)") + 5
+
+"3" + (node -e "console.log(1+3)") + 5
+
+#Create a node script using Powershell here-string, no extension
+@"
+#! /usr/bin/node
+console.log('Hello Powershell User Group!!!')
+"@ | out-file -encoding ascii hello
+
+
+#Make it executable
+chmod +x hello
+
+#Runs the executable
+.\hello
+
+
+#Let's have a script that outputs JSON
+vim jsonstring1.js
+-----------------
+#! /usr/bin/node
+
+function returnsjson()
+{
+        var obj = [
+                'foo',
+                {
+                        'bar': ['baz', null, 1.1, 2],
+                        'buz': ['foo1', 'foo2', 'foo3']
+                },
+                'alpha',
+                1,2,3
+        ];
+        return JSON.stringify(obj);
+}
+
+
+console.log(returnsjson());
+-----------------
+
+#Run the script
+./jsonstring1.js
+
+#Capture the data as structured objects
+$data = ./jsonstring1.js | ConvertFrom-Json
+
+#Look at the first element of the array
+$data[0]
+
+# 2nd element
+$data[1]
+
+# Get specific element: foo2
+$data[1].buz[1]
+
+# Wrap it so that it looks like a simple powershell command
+"./jsonstring1.js | ConvertFrom-Json" |Out-File jsonstring1.ps1
+
+# Treat the output as structured data
+(./jsonstring1.ps1)[1].buz[1]
+
+nano inline_interop.ps1
+-----------------
+"Hello from PowerShell!"
+
+python3 -c @"
+print('    Hello from Python!')
+"@
+
+Rscript -e "myString <- '    Hello from R!'; print(myString)"
+
+node -e "console.log('    Hello from Node!');"
+
+"Back to Powershell"
+
+-----------------
