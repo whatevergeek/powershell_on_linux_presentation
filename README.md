@@ -3,7 +3,7 @@ material presented by Paul Lorett Amazona
 
 on 21Jan2017
 
-during the PowerShell Asia User Group
+during the PowerShell Asia User Group Meetup
 
 Event link: https://www.meetup.com/mssgug/events/236697193/
 
